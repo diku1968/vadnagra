@@ -1,0 +1,23 @@
+{
+  "name": "Nagar Brahmin Directory",
+  "short_name": "Nagar Dir",
+  "description": "Directory of Nagar Brahmin community members",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1a4d8c",
+  "theme_color": "#1a4d8c",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
