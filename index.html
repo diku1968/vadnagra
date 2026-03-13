@@ -21,6 +21,186 @@
     box-shadow:0 3px 6px rgba(0,0,0,0.1);
   }
   #total{font-size:1rem;opacity:0.9;margin-top:5px;}
+  
+  /* Update Notification */
+  .update-notification {
+    background:linear-gradient(135deg, #28a745, #1e7e34);
+    color:white;
+    padding:12px 20px;
+    margin:10px;
+    border-radius:50px;
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    box-shadow:0 4px 15px rgba(40,167,69,0.3);
+    animation: slideDown 0.5s;
+  }
+  @keyframes slideDown {
+    from { transform:translateY(-100%); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+  }
+  .update-notification button {
+    background:white;
+    color:#28a745;
+    border:none;
+    padding:8px 20px;
+    border-radius:30px;
+    font-weight:600;
+    cursor:pointer;
+    font-size:0.9rem;
+    transition:all 0.2s;
+  }
+  .update-notification button:hover {
+    transform:scale(1.05);
+    box-shadow:0 2px 10px rgba(0,0,0,0.2);
+  }
+  
+  /* Birthday Button */
+  .birthday-button-container {
+    text-align:center;
+    margin:10px;
+  }
+  .birthday-btn {
+    background:linear-gradient(135deg, #ff9800, #f44336);
+    color:white;
+    border:none;
+    padding:12px 25px;
+    border-radius:50px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    box-shadow:0 4px 15px rgba(255,152,0,0.3);
+    transition:all 0.3s;
+    border:2px solid white;
+  }
+  .birthday-btn:hover {
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(255,152,0,0.5);
+  }
+  .birthday-count {
+    background:white;
+    color:#f44336;
+    border-radius:20px;
+    padding:2px 8px;
+    margin-left:8px;
+    font-size:0.9rem;
+  }
+  
+  /* Today's Birthday Badge */
+  .today-birthday-badge {
+    display:inline-flex;
+    align-items:center;
+    background:linear-gradient(135deg, #ff9800, #f44336);
+    color:white;
+    padding:4px 10px;
+    border-radius:30px;
+    font-size:0.8rem;
+    font-weight:600;
+    margin-left:8px;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0% { transform:scale(1); }
+    50% { transform:scale(1.05); }
+    100% { transform:scale(1); }
+  }
+  
+  /* Modal Popup */
+  .modal {
+    display:none;
+    position:fixed;
+    z-index:1000;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:rgba(0,0,0,0.5);
+    backdrop-filter:blur(5px);
+  }
+  .modal-content {
+    background:white;
+    margin:15% auto;
+    padding:20px;
+    border-radius:30px;
+    width:90%;
+    max-width:400px;
+    max-height:70vh;
+    overflow-y:auto;
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+    animation: slideIn 0.3s;
+  }
+  @keyframes slideIn {
+    from { transform:translateY(-50px); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+  }
+  .modal-header {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:2px solid #1a4d8c;
+    padding-bottom:10px;
+    margin-bottom:15px;
+  }
+  .modal-header h2 {
+    color:#1a4d8c;
+    margin:0;
+    font-size:1.4rem;
+  }
+  .close-btn {
+    background:#f44336;
+    color:white;
+    border:none;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    font-size:1.2rem;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.2s;
+  }
+  .close-btn:hover {
+    transform:scale(1.1);
+    background:#d32f2f;
+  }
+  .birthday-item {
+    display:flex;
+    align-items:center;
+    padding:10px;
+    margin:5px 0;
+    background:#f8f9fa;
+    border-radius:20px;
+    border-left:4px solid #ff9800;
+  }
+  .birthday-item.today {
+    border-left:4px solid #f44336;
+    background:#fff3f3;
+  }
+  .birthday-item .avatar-small {
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#1a4d8c;
+    color:white;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+    margin-right:12px;
+  }
+  .birthday-item .info {
+    flex:1;
+  }
+  .birthday-item .date {
+    color:#ff9800;
+    font-weight:600;
+    font-size:0.85rem;
+  }
+  .birthday-item.today .date {
+    color:#f44336;
+  }
+  
   .topbox{
     background:white;
     margin:16px 12px 8px;
@@ -28,6 +208,7 @@
     border-radius:24px;
     box-shadow:0 2px 8px rgba(0,0,0,0.03);
     border:1px solid #e9edf2;
+    display:none;
   }
   .title{font-weight:600;color:#1a4d8c;margin-bottom:8px;font-size:1.1rem;}
   .search{
@@ -68,6 +249,16 @@
     transition:0.2s;
   }
   .contact:hover{background:#f9fcff;border-color:#b0c8e0;}
+  .contact.today-birthday {
+    background:linear-gradient(135deg, #fff5f5, #ffffff);
+    border:2px solid #f44336;
+    animation: glow 2s infinite;
+  }
+  @keyframes glow {
+    0% { box-shadow:0 0 5px rgba(244,67,54,0.2); }
+    50% { box-shadow:0 0 15px rgba(244,67,54,0.4); }
+    100% { box-shadow:0 0 5px rgba(244,67,54,0.2); }
+  }
   .left{display:flex;align-items:center;gap:14px;flex:2;}
   .avatar{
     width:48px;
@@ -249,30 +440,23 @@
 </head>
 <body>
 
+<!-- Update Notification -->
+<div id="updateNotification" class="update-notification">
+  <span>📦 New contacts available! Click to update.</span>
+  <button onclick="updateApp()">Update Now</button>
+</div>
+
 <div class="header">
   📘 Nagar Brahmin Directory
   <div id="total"></div>
 </div>
 
-<!-- Image + Title + Image Pattern -->
-<div class="image-title-image">
-  <img src="icon1.png" alt="Left Icon" class="iti-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22 viewBox=%220 0 24 24%22 fill=%22white%22><path d=%22M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z%22/></svg>'">
-  <span class="iti-title">Nagar Directory</span>
-  <img src="icon2.png" alt="Right Icon" class="iti-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22 viewBox=%220 0 24 24%22 fill=%22white%22><path d=%22M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z%22/></svg>'">
-</div>
 
-<!-- Multiple Image + Title + Image Patterns -->
-<div class="iti-container">
-  <div class="iti-pattern">
-    <img src="icon1.png" alt="Icon" class="pattern-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2230%22 height=%2230%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z%22/></svg>'">
-    <span class="pattern-title">Directory</span>
-    <img src="icon2.png" alt="Icon" class="pattern-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2230%22 height=%2230%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z%22/></svg>'">
-  </div>
-  <div class="iti-pattern">
-    <img src="icon2.png" alt="Icon" class="pattern-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2230%22 height=%2230%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z%22/></svg>'">
-    <span class="pattern-title">Contacts</span>
-    <img src="icon1.png" alt="Icon" class="pattern-image" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2230%22 height=%2230%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 6h-8l-2-2H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z%22/></svg>'">
-  </div>
+<!-- Birthday Button -->
+<div class="birthday-button-container">
+  <button class="birthday-btn" onclick="showBirthdayPopup()">
+    🎂 Month Birthdays <span id="birthdayCount" class="birthday-count">0</span>
+  </button>
 </div>
 
 <!-- Install Button -->
@@ -280,7 +464,19 @@
   <button id="install-btn">📲 Install App</button>
 </div>
 
-<div class="topbox" id="birthdayBox">🎂 Loading birthdays...</div>
+<!-- Birthday Popup Modal -->
+<div id="birthdayModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>🎂 Birthdays This Month</h2>
+      <button class="close-btn" onclick="closeBirthdayPopup()">×</button>
+    </div>
+    <div id="birthdayList"></div>
+  </div>
+</div>
+
+<!-- Hidden Topbox -->
+<div class="topbox" id="birthdayBox" style="display:none;"></div>
 
 <div class="buttons">
   <button onclick="adminLogin()">🔐 Admin</button>
@@ -307,6 +503,10 @@ const SHEET_CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export
 // ----------------------------------------------
 let contacts = [];
 let isLoading = false;
+let todayBirthdays = [];
+let monthBirthdays = [];
+let lastUpdateCheck = 0;
+let updateAvailable = false;
 
 // Load from localStorage first for speed
 function loadLocalOrDefault() {
@@ -315,6 +515,9 @@ function loadLocalOrDefault() {
     try {
       contacts = JSON.parse(stored);
       console.log(`Loaded ${contacts.length} contacts from cache`);
+      
+      // Check last update time
+      lastUpdateCheck = parseInt(localStorage.getItem("nagar_last_update")) || 0;
     } catch(e) { 
       contacts = []; 
     }
@@ -328,28 +531,36 @@ function loadLocalOrDefault() {
 }
 
 function getSampleContacts() {
+  const today = new Date();
+  const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+  
   return [
     {name:"Amit S Acharya",phone:"9429119209",place:"Ahmedabad",family:"Acharya",birthday:""},
     {name:"Ankur Acharya",phone:"9825230512",place:"Bhuj",family:"Acharya",birthday:"1973-12-12"},
-    {name:"Bimal Acharya",phone:"9825736190",place:"Bhuj",family:"Acharya",birthday:""},
+    {name:"Bimal Acharya",phone:"9825736190",place:"Bhuj",family:"Acharya",birthday:todayStr},
     {name:"Dhara B Acharya",phone:"9409087848",place:"Bhuj",family:"Acharya",birthday:""},
-    {name:"Dr. Rajesh Trivedi",phone:"9876543210",place:"Mumbai",family:"Trivedi",birthday:"1980-05-21"}
+    {name:"Dr. Rajesh Trivedi",phone:"9876543210",place:"Mumbai",family:"Trivedi",birthday:"1980-05-21"},
+    {name:"Priya Mehta",phone:"9876543211",place:"Ahmedabad",family:"Mehta",birthday:todayStr},
+    {name:"Rakesh Joshi",phone:"9876543212",place:"Surat",family:"Joshi",birthday:"1985-03-15"}
   ];
 }
 
 function saveToLocal() {
   localStorage.setItem("nagar_contacts_full", JSON.stringify(contacts));
+  localStorage.setItem("nagar_last_update", Date.now().toString());
   document.getElementById('total').innerText = 'Total members: ' + contacts.length;
 }
 
 // ----------------------------------------------
-// LOAD FROM GOOGLE SHEET (as public CSV)
+// LOAD FROM GOOGLE SHEET
 // ----------------------------------------------
-async function loadFromGoogleSheet() {
+async function loadFromGoogleSheet(showUpdateNotification = false) {
   if (isLoading) return;
   
   isLoading = true;
-  document.getElementById('list').innerHTML = '<div class="loading">⏳ Loading 450+ contacts from Google Sheet...</div>';
+  if (!showUpdateNotification) {
+    document.getElementById('list').innerHTML = '<div class="loading">⏳ Loading 450+ contacts from Google Sheet...</div>';
+  }
   
   try {
     const proxyUrl = 'https://api.allorigins.win/raw?url=';
@@ -361,27 +572,45 @@ async function loadFromGoogleSheet() {
     const parsedContacts = parseCSV(csvText);
     
     if (parsedContacts.length > 0) {
+      // Check if new contacts were added
+      const oldCount = contacts.length;
+      const newCount = parsedContacts.length;
+      
+      if (newCount > oldCount && showUpdateNotification) {
+        // Show update notification
+        document.getElementById('updateNotification').style.display = 'flex';
+        updateAvailable = true;
+      }
+      
       contacts = parsedContacts;
       saveToLocal();
       
-      const families = new Set(contacts.map(c => c.family || 'Other')).size;
-      
       display(contacts);
-      showBirthdays();
+      updateBirthdays();
       
-      alert(`✅ Successfully loaded ${contacts.length} contacts from Google Sheet!`);
+      if (!showUpdateNotification) {
+        alert(`✅ Successfully loaded ${contacts.length} contacts from Google Sheet!`);
+      }
     } else {
       throw new Error('No contacts found in CSV');
     }
   } catch (error) {
     console.error('Error loading sheet:', error);
-    document.getElementById('list').innerHTML = '';
-    display(contacts);
-    
-    tryAlternateFetch();
+    if (!showUpdateNotification) {
+      document.getElementById('list').innerHTML = '';
+      display(contacts);
+      tryAlternateFetch();
+    }
   } finally {
     isLoading = false;
   }
+}
+
+// Update app when new version is available
+function updateApp() {
+  document.getElementById('updateNotification').style.display = 'none';
+  updateAvailable = false;
+  loadFromGoogleSheet(false); // Reload with full loading screen
 }
 
 async function tryAlternateFetch() {
@@ -396,7 +625,7 @@ async function tryAlternateFetch() {
       contacts = parsedContacts;
       saveToLocal();
       display(contacts);
-      showBirthdays();
+      updateBirthdays();
       alert(`✅ Successfully loaded ${contacts.length} contacts!`);
     }
   } catch (e) {
@@ -405,6 +634,7 @@ async function tryAlternateFetch() {
     if (contacts.length <= 5) {
       document.getElementById('list').innerHTML = '';
       display(contacts);
+      updateBirthdays();
       
       const statsDiv = document.createElement('div');
       statsDiv.className = 'stats';
@@ -455,6 +685,94 @@ function parseCSV(csvText) {
 }
 
 // ----------------------------------------------
+// Birthday Functions
+// ----------------------------------------------
+function updateBirthdays() {
+  let today = new Date();
+  let currentMonth = today.getMonth();
+  let currentDay = today.getDate();
+
+  // Find today's birthdays
+  todayBirthdays = contacts.filter(c => {
+    if (!c.birthday) return false;
+    let b = new Date(c.birthday);
+    return !isNaN(b.getTime()) && b.getDate() === currentDay && b.getMonth() === currentMonth;
+  });
+
+  // Find month birthdays (excluding today's)
+  monthBirthdays = contacts.filter(c => {
+    if (!c.birthday) return false;
+    let b = new Date(c.birthday);
+    if (isNaN(b.getTime())) return false;
+    
+    // Check if it's same month but not today
+    return b.getMonth() === currentMonth && b.getDate() !== currentDay;
+  });
+
+  // Update birthday count button
+  document.getElementById('birthdayCount').textContent = monthBirthdays.length + todayBirthdays.length;
+  
+  // Prepare birthday list for popup
+  let birthdayHtml = '';
+  
+  if (todayBirthdays.length > 0) {
+    birthdayHtml += '<h3 style="color:#f44336; margin:10px 0;">🔥 Today</h3>';
+    todayBirthdays.forEach(c => {
+      let initials = c.name.split(' ').map(x => x[0]).join('').toUpperCase().substring(0,2);
+      let formattedDate = formatDate(c.birthday);
+      birthdayHtml += `
+        <div class="birthday-item today">
+          <div class="avatar-small">${initials}</div>
+          <div class="info">
+            <b>${c.name}</b><br>
+            <span class="date">🎂 ${formattedDate}</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+  
+  if (monthBirthdays.length > 0) {
+    birthdayHtml += '<h3 style="color:#ff9800; margin:10px 0;">📅 This Month</h3>';
+    monthBirthdays.forEach(c => {
+      let initials = c.name.split(' ').map(x => x[0]).join('').toUpperCase().substring(0,2);
+      let formattedDate = formatDate(c.birthday);
+      birthdayHtml += `
+        <div class="birthday-item">
+          <div class="avatar-small">${initials}</div>
+          <div class="info">
+            <b>${c.name}</b><br>
+            <span class="date">🎂 ${formattedDate}</span>
+          </div>
+        </div>
+      `;
+    });
+  }
+  
+  if (todayBirthdays.length === 0 && monthBirthdays.length === 0) {
+    birthdayHtml = '<p style="text-align:center; color:#647b9a;">No birthdays this month</p>';
+  }
+  
+  document.getElementById('birthdayList').innerHTML = birthdayHtml;
+}
+
+function showBirthdayPopup() {
+  document.getElementById('birthdayModal').style.display = 'block';
+}
+
+function closeBirthdayPopup() {
+  document.getElementById('birthdayModal').style.display = 'none';
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById('birthdayModal');
+  if (event.target == modal) {
+    modal.style.display = 'none';
+  }
+}
+
+// ----------------------------------------------
 // Helper functions
 // ----------------------------------------------
 function formatDate(dStr) {
@@ -472,49 +790,72 @@ function formatDate(dStr) {
   return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
 }
 
-function showBirthdays() {
-  let today = new Date();
-  let currentMonth = today.getMonth();
-  let currentDay = today.getDate();
-
-  let monthList = contacts.filter(c => {
-    if (!c.birthday) return false;
-    let b = new Date(c.birthday);
-    return !isNaN(b.getTime()) && b.getMonth() === currentMonth;
-  });
-
-  let todayList = contacts.filter(c => {
-    if (!c.birthday) return false;
-    let b = new Date(c.birthday);
-    return !isNaN(b.getTime()) && b.getDate() === currentDay && b.getMonth() === currentMonth;
-  });
-
-  let html = '<div class="title">🎉 Birthdays this month</div>';
-  if (todayList.length > 0) {
-    html += '<span style="background:#ffe6b3; padding:4px 12px; border-radius:30px; font-size:0.9rem;">🔥 Today: ' + todayList.map(t => t.name.split(' ')[0]).join(', ') + '</span><br>';
-  }
-  if (monthList.length === 0) {
-    html += '<span style="color:#647b9a;">— No birthdays this month —</span>';
-  } else {
-    monthList.slice(0, 10).forEach(c => {
-      html += `• ${c.name}  🎂 ${formatDate(c.birthday)}<br>`;
-    });
-    if (monthList.length > 10) {
-      html += `<span style="color:#647b9a;">+ ${monthList.length-10} more...</span>`;
-    }
-  }
-  document.getElementById('birthdayBox').innerHTML = html;
-}
-
+// Replace the display function with this updated version
 function display(data) {
+  // Sort contacts: today's birthdays first, then alphabetically by family
+  const today = new Date();
+  
+  // Separate today's birthdays from others
+  const todayBirthdayContacts = [];
+  const otherContacts = [];
+  
+  data.forEach(contact => {
+    if (isTodayBirthday(contact)) {
+      todayBirthdayContacts.push(contact);
+    } else {
+      otherContacts.push(contact);
+    }
+  });
+  
+  // Sort today's birthday contacts by name (optional)
+  todayBirthdayContacts.sort((a, b) => a.name.localeCompare(b.name));
+  
+  // Group other contacts by family
   let families = {};
-  data.forEach(c => {
+  otherContacts.forEach(c => {
     let f = c.family || 'Other';
     if (!families[f]) families[f] = [];
     families[f].push(c);
   });
+  
+  // Sort contacts within each family by name
+  Object.keys(families).forEach(f => {
+    families[f].sort((a, b) => a.name.localeCompare(b.name));
+  });
 
   let html = '';
+  
+  // FIRST: Show today's birthdays section at the very top
+  if (todayBirthdayContacts.length > 0) {
+    html += `<div class="family" style="background:linear-gradient(135deg, #f44336, #ff9800);">🎂 Today's Birthdays (${todayBirthdayContacts.length})</div>`;
+    
+    todayBirthdayContacts.forEach(c => {
+      let initials = c.name.split(' ').map(x => x[0]).join('').toUpperCase().substring(0,2);
+      let birthDisplay = c.birthday ? `<span class="birthday-badge">🎂 ${formatDate(c.birthday)}</span>` : '';
+      
+      html += `<div class="contact today-birthday">
+        <div class="left">
+          <div class="avatar" style="background:#f44336;">${initials}</div>
+          <div class="info">
+            <b>${c.name}</b> ${birthDisplay}<br>
+            <small>📞 ${c.phone || '—'} <span class="today-birthday-badge">🎂 Birthday Today!</span> &nbsp; | &nbsp; 🏠 ${c.place || '—'}</small>
+          </div>
+        </div>
+        <div class="icon-buttons">
+          <a href="#" class="icon-btn" onclick="showContactInfo('${c.name}')" title="Contact Info">
+            <img src="icon1.png" alt="Info" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z%22/></svg>'">
+            <span class="icon-title">Info</span>
+          </a>
+          <a href="#" class="icon-btn" onclick="shareContact('${c.name}')" title="Share Contact">
+            <img src="icon2.png" alt="Share" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z%22/></svg>'">
+            <span class="icon-title">Share</span>
+          </a>
+        </div>
+      </div>`;
+    });
+  }
+  
+  // THEN: Show all other contacts grouped by family
   Object.keys(families).sort().forEach(f => {
     html += `<div class="family">${f} Family (${families[f].length})</div>`;
     families[f].forEach(c => {
@@ -546,13 +887,22 @@ function display(data) {
   document.getElementById('list').innerHTML = html || '<div style="text-align:center;margin:30px;">No contacts match.</div>';
   document.getElementById('total').innerText = 'Total members: ' + contacts.length;
   
+  // Show family count (excluding today's birthdays section)
   const familyCount = Object.keys(families).length;
   if (familyCount > 0) {
     const statsDiv = document.createElement('div');
     statsDiv.className = 'stats';
-    statsDiv.innerHTML = `📊 ${contacts.length} members · ${familyCount} families`;
+    statsDiv.innerHTML = `📊 ${contacts.length} members · ${familyCount} families ${todayBirthdayContacts.length > 0 ? '· 🎂 ' + todayBirthdayContacts.length + ' celebrating today' : ''}`;
     document.getElementById('list').prepend(statsDiv);
   }
+}
+
+function isTodayBirthday(contact) {
+  if (!contact.birthday) return false;
+  let today = new Date();
+  let b = new Date(contact.birthday);
+  if (isNaN(b.getTime())) return false;
+  return b.getDate() === today.getDate() && b.getMonth() === today.getMonth();
 }
 
 function showContactInfo(name) {
@@ -616,7 +966,7 @@ function addMember() {
   contacts.push({ name, phone, place, family: family || 'Other', birthday: birthday || '' });
   saveToLocal();
   display(contacts);
-  showBirthdays();
+  updateBirthdays();
 }
 
 // ----------------------------------------------
@@ -663,13 +1013,33 @@ if ('serviceWorker' in navigator) {
       .then(registration => {
         console.log('✅ Service Worker registered successfully');
         
+        // Check for updates every hour
+        setInterval(() => {
+          registration.update();
+        }, 60 * 60 * 1000);
+        
+        // Listen for new service worker
         registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
           console.log('🔄 New version installing...');
+          
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              // New version available
+              document.getElementById('updateNotification').style.display = 'flex';
+            }
+          });
         });
       })
       .catch(error => {
         console.log('❌ Service Worker registration failed:', error);
       });
+      
+    // Listen for controller change (update activated)
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      console.log('New service worker activated');
+      window.location.reload();
+    });
   });
 }
 
@@ -705,15 +1075,22 @@ window.addEventListener('appinstalled', () => {
 });
 
 // ----------------------------------------------
+// Auto-check for updates every 30 minutes
+// ----------------------------------------------
+setInterval(() => {
+  loadFromGoogleSheet(true); // Check for updates silently
+}, 30 * 60 * 1000);
+
+// ----------------------------------------------
 // INIT
 // ----------------------------------------------
 loadLocalOrDefault();
 display(contacts);
-showBirthdays();
+updateBirthdays();
 
 // Auto-load from Google Sheet after 1 second
 setTimeout(() => {
-  loadFromGoogleSheet();
+  loadFromGoogleSheet(false);
 }, 1000);
 
 </script>
