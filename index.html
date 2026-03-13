@@ -277,46 +277,6 @@
   .info{line-height:1.5;}
   .info b{font-size:1.05rem;color:#0b2b4f;}
   .info small{color:#5e6f88;font-size:0.9rem;}
-  .callbtn{
-    font-size:1.9rem;
-    margin-left:12px;
-    text-decoration:none;
-    display:inline-block;
-    transition:transform 0.1s;
-    line-height:1;
-  }
-  .callbtn:hover{transform:scale(1.15);}
-  
-  /* Image + Title + Image pattern */
-  .image-title-image {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:15px;
-    margin:20px auto;
-    padding:15px 20px;
-    background:linear-gradient(135deg, #667eea 0%, #1a4d8c 100%);
-    border-radius:50px;
-    max-width:400px;
-    box-shadow:0 10px 20px rgba(0,0,0,0.2);
-  }
-  .iti-image {
-    width:50px;
-    height:50px;
-    object-fit:contain;
-    filter:brightness(0) invert(1);
-    transition:transform 0.3s;
-  }
-  .iti-image:hover {
-    transform:scale(1.1);
-  }
-  .iti-title {
-    color:white;
-    font-size:1.5rem;
-    font-weight:bold;
-    text-shadow:2px 2px 4px rgba(0,0,0,0.3);
-    letter-spacing:1px;
-  }
   
   /* Icon buttons */
   .icon-buttons{
@@ -380,7 +340,7 @@
   .loading{text-align:center;padding:30px;color:#1a4d8c;font-size:1.2rem;}
   .stats{background:#e8f0fe;border-radius:20px;padding:8px 15px;margin:10px;text-align:center;color:#1a4d8c;font-weight:500;}
   
-  /* Multiple Image + Title + Image patterns */
+  /* Image + Title + Image patterns */
   .iti-container {
     display:flex;
     flex-wrap:wrap;
@@ -435,6 +395,37 @@
   #install-btn:hover {
     transform:translateY(-2px);
     box-shadow:0 8px 25px rgba(40,167,69,0.5);
+  }
+  
+  /* Image Title Image */
+  .image-title-image {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:15px;
+    margin:20px auto;
+    padding:15px 20px;
+    background:linear-gradient(135deg, #667eea 0%, #1a4d8c 100%);
+    border-radius:50px;
+    max-width:400px;
+    box-shadow:0 10px 20px rgba(0,0,0,0.2);
+  }
+  .iti-image {
+    width:50px;
+    height:50px;
+    object-fit:contain;
+    filter:brightness(0) invert(1);
+    transition:transform 0.3s;
+  }
+  .iti-image:hover {
+    transform:scale(1.1);
+  }
+  .iti-title {
+    color:white;
+    font-size:1.5rem;
+    font-weight:bold;
+    text-shadow:2px 2px 4px rgba(0,0,0,0.3);
+    letter-spacing:1px;
   }
 </style>
 </head>
@@ -541,7 +532,8 @@ function getSampleContacts() {
     {name:"Dhara B Acharya",phone:"9409087848",place:"Bhuj",family:"Acharya",birthday:""},
     {name:"Dr. Rajesh Trivedi",phone:"9876543210",place:"Mumbai",family:"Trivedi",birthday:"1980-05-21"},
     {name:"Priya Mehta",phone:"9876543211",place:"Ahmedabad",family:"Mehta",birthday:todayStr},
-    {name:"Rakesh Joshi",phone:"9876543212",place:"Surat",family:"Joshi",birthday:"1985-03-15"}
+    {name:"Rakesh Joshi",phone:"9876543212",place:"Surat",family:"Joshi",birthday:"1985-03-15"},
+    {name:"Kirit Pathak",phone:"9876543213",place:"Ahmedabad",family:"Pathak",birthday:todayStr}
   ];
 }
 
@@ -676,6 +668,7 @@ function parseCSV(csvText) {
     };
     
     if (contact.name && contact.name.length > 0) {
+      // Clean phone number - remove all non-digits
       contact.phone = contact.phone.replace(/\D/g, '');
       contacts.push(contact);
     }
@@ -790,7 +783,14 @@ function formatDate(dStr) {
   return d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear();
 }
 
-// Replace the display function with this updated version
+function isTodayBirthday(contact) {
+  if (!contact.birthday) return false;
+  let today = new Date();
+  let b = new Date(contact.birthday);
+  if (isNaN(b.getTime())) return false;
+  return b.getDate() === today.getDate() && b.getMonth() === today.getMonth();
+}
+
 function display(data) {
   // Sort contacts: today's birthdays first, then alphabetically by family
   const today = new Date();
@@ -807,7 +807,7 @@ function display(data) {
     }
   });
   
-  // Sort today's birthday contacts by name (optional)
+  // Sort today's birthday contacts by name
   todayBirthdayContacts.sort((a, b) => a.name.localeCompare(b.name));
   
   // Group other contacts by family
@@ -832,6 +832,7 @@ function display(data) {
     todayBirthdayContacts.forEach(c => {
       let initials = c.name.split(' ').map(x => x[0]).join('').toUpperCase().substring(0,2);
       let birthDisplay = c.birthday ? `<span class="birthday-badge">🎂 ${formatDate(c.birthday)}</span>` : '';
+      let cleanPhone = c.phone.replace(/\D/g, '');
       
       html += `<div class="contact today-birthday">
         <div class="left">
@@ -842,13 +843,22 @@ function display(data) {
           </div>
         </div>
         <div class="icon-buttons">
-          <a href="#" class="icon-btn" onclick="showContactInfo('${c.name}')" title="Contact Info">
-            <img src="icon1.png" alt="Info" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z%22/></svg>'">
-            <span class="icon-title">Info</span>
+          <!-- Call Button -->
+          <a href="tel:${cleanPhone}" class="icon-btn" title="Call ${c.name}">
+            <img src="icon1.png" alt="Call" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-.9.3l-2.2 2.2c-2.5-1.2-4.6-3.2-5.8-5.8l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 7.7 6.3 14 14 14 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z%22/></svg>'">
+            <span class="icon-title">Call</span>
           </a>
-          <a href="#" class="icon-btn" onclick="shareContact('${c.name}')" title="Share Contact">
-            <img src="icon2.png" alt="Share" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z%22/></svg>'">
-            <span class="icon-title">Share</span>
+          
+          <!-- Message Button (SMS) -->
+          <a href="sms:${cleanPhone}" class="icon-btn" title="Send SMS to ${c.name}">
+            <img src="icon2.png" alt="Message" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z%22/></svg>'">
+            <span class="icon-title">Message</span>
+          </a>
+          
+          <!-- WhatsApp Button -->
+          <a href="https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=Hello%20${encodeURIComponent(c.name.split(' ')[0])}" target="_blank" class="icon-btn" title="WhatsApp ${c.name}">
+            <img src="icon1.png" alt="WhatsApp" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%2325D366%22><path d=%22M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.4c1.5.8 3.2 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm3.1 14.6c-.3.8-1.5 1.5-2.5 1.6-.7.1-1.4 0-4.1-1-2.7-1-4.4-3.3-4.5-3.5 0-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.3.3-.3.7-.4.9-.4h.7c.2 0 .5.1.8.6.3.5 1 1.8 1.1 1.9.1.2.1.4 0 .6-.1.2-.2.4-.4.6-.2.2-.4.5-.5.6-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.1 2.2 1.3 2.6 1.4.3.1.6 0 .8-.3.2-.3.9-1.1 1.1-1.4.2-.3.5-.3.8-.2.3.1 1.9.9 2.2 1.1.3.2.5.3.6.4.1.3.1.7-.1 1.1z%22/></svg>'">
+            <span class="icon-title">WhatsApp</span>
           </a>
         </div>
       </div>`;
@@ -861,6 +871,7 @@ function display(data) {
     families[f].forEach(c => {
       let initials = c.name.split(' ').map(x => x[0]).join('').toUpperCase().substring(0,2);
       let birthDisplay = c.birthday ? `<span class="birthday-badge">🎂 ${formatDate(c.birthday)}</span>` : '';
+      let cleanPhone = c.phone.replace(/\D/g, '');
       
       html += `<div class="contact">
         <div class="left">
@@ -871,13 +882,22 @@ function display(data) {
           </div>
         </div>
         <div class="icon-buttons">
-          <a href="#" class="icon-btn" onclick="showContactInfo('${c.name}')" title="Contact Info">
-            <img src="icon1.png" alt="Info" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z%22/></svg>'">
-            <span class="icon-title">Info</span>
+          <!-- Call Button -->
+          <a href="tel:${cleanPhone}" class="icon-btn" title="Call ${c.name}">
+            <img src="icon1.png" alt="Call" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 15.5c-1.2 0-2.4-.2-3.6-.6-.3-.1-.7 0-.9.3l-2.2 2.2c-2.5-1.2-4.6-3.2-5.8-5.8l2.2-2.2c.3-.3.4-.7.2-1-.4-1.2-.6-2.4-.6-3.6 0-.6-.4-1-1-1H4c-.6 0-1 .4-1 1 0 7.7 6.3 14 14 14 .6 0 1-.4 1-1v-3.5c0-.6-.4-1-1-1z%22/></svg>'">
+            <span class="icon-title">Call</span>
           </a>
-          <a href="#" class="icon-btn" onclick="shareContact('${c.name}')" title="Share Contact">
-            <img src="icon2.png" alt="Share" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z%22/></svg>'">
-            <span class="icon-title">Share</span>
+          
+          <!-- Message Button (SMS) -->
+          <a href="sms:${cleanPhone}" class="icon-btn" title="Send SMS to ${c.name}">
+            <img src="icon2.png" alt="Message" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%231a4d8c%22><path d=%22M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z%22/></svg>'">
+            <span class="icon-title">Message</span>
+          </a>
+          
+          <!-- WhatsApp Button -->
+          <a href="https://wa.me/${cleanPhone.startsWith('91') ? cleanPhone : '91' + cleanPhone}?text=Hello%20${encodeURIComponent(c.name.split(' ')[0])}" target="_blank" class="icon-btn" title="WhatsApp ${c.name}">
+            <img src="icon1.png" alt="WhatsApp" class="icon-img" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2224%22 height=%2224%22 viewBox=%220 0 24 24%22 fill=%22%2325D366%22><path d=%22M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.5 5.3L2 22l4.8-1.4c1.5.8 3.2 1.3 5.2 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm3.1 14.6c-.3.8-1.5 1.5-2.5 1.6-.7.1-1.4 0-4.1-1-2.7-1-4.4-3.3-4.5-3.5 0-.2-1.1-1.5-1.1-2.8 0-1.3.7-2 1-2.3.3-.3.7-.4.9-.4h.7c.2 0 .5.1.8.6.3.5 1 1.8 1.1 1.9.1.2.1.4 0 .6-.1.2-.2.4-.4.6-.2.2-.4.5-.5.6-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.1 2.2 1.3 2.6 1.4.3.1.6 0 .8-.3.2-.3.9-1.1 1.1-1.4.2-.3.5-.3.8-.2.3.1 1.9.9 2.2 1.1.3.2.5.3.6.4.1.3.1.7-.1 1.1z%22/></svg>'">
+            <span class="icon-title">WhatsApp</span>
           </a>
         </div>
       </div>`;
@@ -889,20 +909,12 @@ function display(data) {
   
   // Show family count (excluding today's birthdays section)
   const familyCount = Object.keys(families).length;
-  if (familyCount > 0) {
+  if (familyCount > 0 || todayBirthdayContacts.length > 0) {
     const statsDiv = document.createElement('div');
     statsDiv.className = 'stats';
     statsDiv.innerHTML = `📊 ${contacts.length} members · ${familyCount} families ${todayBirthdayContacts.length > 0 ? '· 🎂 ' + todayBirthdayContacts.length + ' celebrating today' : ''}`;
     document.getElementById('list').prepend(statsDiv);
   }
-}
-
-function isTodayBirthday(contact) {
-  if (!contact.birthday) return false;
-  let today = new Date();
-  let b = new Date(contact.birthday);
-  if (isNaN(b.getTime())) return false;
-  return b.getDate() === today.getDate() && b.getMonth() === today.getMonth();
 }
 
 function showContactInfo(name) {
